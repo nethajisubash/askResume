@@ -1,0 +1,7 @@
+streamlit
+langchain
+faiss-cpu
+boto3
+langchain-community
+openai
+tiktoken
