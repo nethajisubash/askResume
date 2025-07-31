@@ -30,7 +30,12 @@ openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Embeddings
 #openai_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+#embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",
+    model_kwargs={'device': 'cpu'}
+)
+
 
 def get_unique_id():
     return str(uuid.uuid4())
