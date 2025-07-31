@@ -15,9 +15,15 @@ from langchain.chat_models import ChatOpenAI
 # Load env vars
 load_dotenv()
 
+os.environ["AWS_ACCESS_KEY_ID"] = st.secrets["AWS_ACCESS_KEY_ID"]
+os.environ["AWS_SECRET_ACCESS_KEY"] = st.secrets["AWS_SECRET_ACCESS_KEY"]
+os.environ["AWS_DEFAULT_REGION"]  = st.secrets["AWS_DEFAULT_REGION"]
+
 s3_client = boto3.client("s3")
-bucket_name = os.getenv("BUCKET_NAME")
-openai_api_key = os.getenv("OPENAI_API_KEY")
+#bucket_name = os.getenv("BUCKET_NAME")
+bucket_name = st.secrets["BUCKET_NAME"]
+#openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Embeddings
 openai_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
