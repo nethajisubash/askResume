@@ -91,7 +91,7 @@ def get_response(llm, vectorstore, question):
     return qa({"query": question})['result']
 
 # Streamlit UI
-st.title("Subash Resume RAG")
+st.title("RAG My Resume")
 
 if "faiss_index" not in st.session_state:
     with st.spinner("Loading FAISS index from S3..."):
