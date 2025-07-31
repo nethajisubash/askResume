@@ -65,9 +65,15 @@ def load_index():
                             allow_dangerous_deserialization=True)
 
 
-def get_llm():
-    return ChatOpenAI(model_name="gpt-4", temperature=0, openai_api_key=openai_api_key)
-
+#def get_llm():
+#    return ChatOpenAI(model_name="gpt-4", temperature=0, openai_api_key=openai_api_key)
+def get_llm(temp, max_tokens):
+    return ChatOpenAI(
+        model_name="gpt-4",
+        temperature=temp,
+        max_tokens=max_tokens,
+        openai_api_key=openai_api_key
+    )
 def get_response(llm, vectorstore, question):
     prompt_template = """
     Human: Please use the given context to provide a concise answer to the question.
@@ -118,7 +124,8 @@ if prompt := st.chat_input("Ask a question about Subash on his resume"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        llm = get_llm()
+        #llm = get_llm()
+        llm = get_llm(temp, max_tokens)
         faiss_index = st.session_state["faiss_index"]
 
         with st.spinner("Searching knowledge base..."):
