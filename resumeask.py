@@ -4,13 +4,15 @@ import boto3
 import streamlit as st
 from dotenv import load_dotenv
 
-from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.vectorstores import FAISS
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
-from langchain.chat_models import ChatOpenAI
+#from langchain.embeddings import OpenAIEmbeddings
+#from langchain.chat_models import ChatOpenAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.llms import HuggingFaceHub
 
 # Load env vars
 load_dotenv()
@@ -26,7 +28,8 @@ bucket_name = st.secrets["BUCKET_NAME"]
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Embeddings
-openai_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+#openai_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 def get_unique_id():
     return str(uuid.uuid4())
@@ -61,12 +64,18 @@ def load_index():
 
     return FAISS.load_local(index_name="my_faiss",
                             folder_path=temp_dir,
-                            embeddings=openai_embeddings,
+                            embeddings=embeddings,
                             allow_dangerous_deserialization=True)
 
 
+#def get_llm():
+#    return ChatOpenAI(model_name="gpt-4", temperature=0, openai_api_key=openai_api_key)
+
 def get_llm():
-    return ChatOpenAI(model_name="gpt-4", temperature=0, openai_api_key=openai_api_key)
+    return HuggingFaceHub(
+        repo_id="tiiuae/falcon-7b-instruct",
+        model_kwargs={"temperature": 0.7, "max_length": 512}
+    )
 
 def get_response(llm, vectorstore, question):
     prompt_template = """
@@ -105,6 +114,7 @@ if "messages" not in st.session_state:
 st.sidebar.title("Model Parameters")
 temp = st.sidebar.slider("Temperature", 0.0, 2.0, 0.7, 0.1)
 max_tokens = st.sidebar.slider("Max Tokens", 1, 4096, 256)
+st.sidebar.markdown("Version: 2025731")
 
 # Display past chat
 for message in st.session_state["messages"]:
