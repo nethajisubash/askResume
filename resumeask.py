@@ -20,6 +20,7 @@ load_dotenv()
 os.environ["AWS_ACCESS_KEY_ID"] = st.secrets["AWS_ACCESS_KEY_ID"]
 os.environ["AWS_SECRET_ACCESS_KEY"] = st.secrets["AWS_SECRET_ACCESS_KEY"]
 os.environ["AWS_DEFAULT_REGION"]  = st.secrets["AWS_DEFAULT_REGION"]
+os.environ["HUGGINGFACEHUB_API_TOKEN"]  = st.secrets["HUGGINGFACEHUB_API_TOKEN"]
 
 s3_client = boto3.client("s3")
 #bucket_name = os.getenv("BUCKET_NAME")
@@ -114,7 +115,7 @@ if "messages" not in st.session_state:
 st.sidebar.title("Model Parameters")
 temp = st.sidebar.slider("Temperature", 0.0, 2.0, 0.7, 0.1)
 max_tokens = st.sidebar.slider("Max Tokens", 1, 4096, 256)
-st.sidebar.markdown("Version: 2025731")
+st.sidebar.markdown("Version: 20257312")
 
 # Display past chat
 for message in st.session_state["messages"]:
