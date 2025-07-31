@@ -5,3 +5,4 @@ boto3
 langchain-community
 openai
 tiktoken
+sentence-transformers
