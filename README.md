@@ -1,5 +1,5 @@
 <img width="840" height="591" alt="image" src="https://github.com/user-attachments/assets/76e21575-c9bc-40b3-972a-919337a7df09" />
-<h1>📄 AskResume: AI-Powered Resume Q&amp;A</h1>
+<h1>📄 AskResume: AI-Powered Resume Chat Bot</h1>
 
 <p>
 This project enables users to interact with Subash’s resume using a conversational AI interface powered by 
